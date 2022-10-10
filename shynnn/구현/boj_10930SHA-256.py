@@ -9,4 +9,4 @@ str = input()
 result = hashlib.sha256(str.encode())
 print(result.hexdigest())
 
-# 정답과 동일
+# 정답과 동일함

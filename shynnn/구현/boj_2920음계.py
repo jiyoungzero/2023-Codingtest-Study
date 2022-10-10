@@ -6,6 +6,7 @@
 # 양쪽 끝 값을 더해서 9가 나오지 않는 순간이 있으면 mixed로 판별
   ## 이로 인해 모든 값을 for문으로 돌리지 않아도 되므로 시간 단축 예상..?
 ## 어디가 틀린 건지 모르겠다... ..
+ 
 array = list(map(int, input().split(' ')))
 
 def scale (array) :
