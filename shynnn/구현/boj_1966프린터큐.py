@@ -25,7 +25,6 @@ test = int(input())
     # 현재 리스트에서 가장 큰 수가 앞에 올때 까지 회전시킨 뒤 추출
     # 가장 큰수가 M이면서 가장 앞에있을 때 프로그램을 종료
 
-
 for i in range(0, test) :
     n, m = list(map(int, input().split(' ')))
     queue = list(map(int, input().split(' ')))
