@@ -1,7 +1,6 @@
 # 해시, 배열, 구현
 # 하, 20분
 # 배열로 풀었더니 시간초과
-# set 선언만 해주면 통과됨
 
 n = int(input())
 arr1 = list(map(int, input().split()))
