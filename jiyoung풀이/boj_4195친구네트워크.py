@@ -35,7 +35,7 @@ def find(x):
     if x == parent[x]:
         return x
     else:
-        root_x = find(parent[x])
+        root_x = find(parent[x]) # 재귀로 부모 노드르 찾음 
         parent[x] = root_x
         return parent[x]
 
@@ -52,6 +52,7 @@ def union(x,y):
 test_cases = int(input())
 
 for _ in range(test_cases):
+    # 인풋이 문자열이기 때문에 dict형태가 리스트보다 효과적이다. 
     parent = dict()
     number = dict()
 
@@ -60,6 +61,8 @@ for _ in range(test_cases):
     for _ in range(f):
         x,y = input().split(" ")
         
+        
+        # 초기 셋팅 
         if x not in parent:
             parent[x] = x
             number[x] = 1
@@ -68,4 +71,8 @@ for _ in range(test_cases):
             number[y] = 1
         
         union (x,y)
-        print(number[find(x)])   
+        
+        print(number[find(y)])  # x로 찾든, y로 찾든 루트노드로 가는 거라서 똑같음  
+        
+    # 첫번째 테스트케이스 결과창    
+    # print(number) {'Fred': 4, 'Barney': 1, 'Betty': 1, 'Wilma': 1}
