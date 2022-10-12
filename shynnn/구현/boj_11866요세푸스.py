@@ -9,10 +9,9 @@ input = sys.stdin.readline
 
 n, k = map(int, input().split())
 d = deque([i for i in range(1, n+1)])
-print(d[0])
 result = []
 
-for i in range(n):
+for i in range(n):  # len(queue) -> 큐 요소가 빠져나가기 때문에?? 확인해보기
     for j in range(k-1):
         d.append(d.popleft())
     result.append(d.popleft())
