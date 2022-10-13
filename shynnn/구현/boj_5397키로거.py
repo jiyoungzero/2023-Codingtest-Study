@@ -10,7 +10,6 @@ test = int(input())
 
 for _ in range(test) : 
     arr = list(map(str, input()))
-    i = 0
     stack1 = []
     stack2 = []
     for i in arr :
@@ -21,9 +20,11 @@ for _ in range(test) :
             if stack2:
                 stack1.append(stack2.pop())
         elif i == '-':
-            stack1.pop()
+            if stack1: # 이부분을 안넣어서 런타임 에러
+                stack1.pop()
         else:
             stack1.append(i)
+    stack1.extend(reversed(stack2))
     print(''.join(stack1))
 
 # 정답
