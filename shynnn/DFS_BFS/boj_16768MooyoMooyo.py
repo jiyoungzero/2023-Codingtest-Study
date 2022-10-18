@@ -76,6 +76,5 @@ while True:
     down()  # 내리기
 
 # 출력
-print()
 for i in game:
     print(''.join(i))
