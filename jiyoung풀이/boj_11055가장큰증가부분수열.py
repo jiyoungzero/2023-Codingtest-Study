@@ -6,15 +6,15 @@ import sys
 input = sys.stdin.readline
 
 n=int(input())
-array=list(map(int, input().split()))
+arr=list(map(int, input().split()))
 
-d=[1]*n
-d[0]=array[0]
+dp = [0]*n
+dp[0] = arr[0]
+# dp에 무엇을 담고 싶은지를 먼저 생각한다
 for i in range(1,n):
-  for j in range(i):
-    if array[j]<array[i]:
-      d[i]=max(d[i], d[j]+array[i])
-    else:
-      d[i]=max(d[i], array[i])
-
-print(max(d))
+      for j in range(i+1):
+            if arr[i] > arr[j]:
+                  dp[i] = max(dp[i], dp[j] + arr[i])
+            else:
+                  dp[i] = max(dp[i], arr[i])
+print(dp)
