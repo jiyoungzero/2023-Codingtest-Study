@@ -1,7 +1,6 @@
 # 골드 4
 # bitmask - 2진수로 바꿔줌
 from copy import deepcopy
-from re import L
 
 
 N, M, K = map(int, input().split())
