@@ -1,33 +1,46 @@
+# 실버2
+# 가로 세로 대각선까지
+
 import sys
-read = sys.stdin.readline
+input = sys.stdin.readline
 sys.setrecursionlimit(10000)
 
 
 def dfs(x, y):
-    # 대각선, 상하좌우
-    dx = [1, 1, -1, -1, 1, -1, 0, 0]
-    dy = [0, 1, 0, 1, -1, -1, 1, -1]
+    visited[x][y] = True
+    if M[x][y] == 1:
+        for i in range(8):
+            xx = dx[i] + x
+            yy = dy[i] + y
+            if xx < 0 or xx >= h or yy < 0 or yy >= w:
+                continue
+            if M[xx][yy] == 0 or visited[xx][yy] == 1:
+                continue
+            dfs(xx, yy)
 
-    field[x][y] = 0
-    for i in range(8):
-        nx = x + dx[i]
-        ny = y + dy[i]
-        if 0 <= nx < h and 0 <= ny < w and field[nx][ny] == 1:
-            dfs(nx, ny)
 
+ans = []
+dx = [0, -1, -1, -1, 0, 1, 1, 1]
+dy = [1, 1, 0, -1, -1, -1, 0, 1]
 
 while True:
-    w, h = map(int, read().split())
+
+    w, h = map(int, input().split())
     if w == 0 and h == 0:
         break
-    field = []
-    count = 0
-    for _ in range(h):
-        field.append(list(map(int, read().split())))
-    for i in range(h):
-        for j in range(w):
-            if field[i][j] == 1:
-                dfs(i, j)
-                count += 1
 
-    print(count)
+    M = []
+    visited = [[0] * w for _ in range(h)]
+    cnt = 0
+
+    for _ in range(h):
+        M.append(list(map(int, input().split())))
+
+    for x in range(h):
+        for y in range(w):
+            if not visited[x][y] and M[x][y] == 1:
+                dfs(x, y)
+                cnt += 1
+            else:
+                continue
+    print(cnt)
