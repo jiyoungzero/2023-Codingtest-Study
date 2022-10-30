@@ -24,7 +24,7 @@ def dfs(n, cur):
         return
 
     for i in range(n, len(str)):
-        for j in range(len(str)):
+        for j in range(i+1, len(str)):
             str[i], str[j] = str[j], str[i]
             dfs(i, cur + 1)
             str[i], str[j] = str[j], str[i]
@@ -38,7 +38,7 @@ for t in range(1, T+1):
 
     result = 0
     if len(str) < num:
-        num = len(str)
+        num = len(str) - 1
 
     dfs(0, 0)
     print("#{} {}".format(t, result))
