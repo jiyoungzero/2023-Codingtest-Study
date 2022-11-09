@@ -42,6 +42,8 @@
 # 오큰수 전용 리스트를 생성
 # ! : 스택을 받을 때, 튜플로 받는 것도 새롭게 배웠다.
 
+# 제대로 이해를 못했음 
+
 import sys
 input = sys.stdin.readline
 

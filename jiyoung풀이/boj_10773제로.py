@@ -1,7 +1,7 @@
 # 문제 스스로 풀어보기
 
 # 스택 : pop을 0일때 실행
-# 
+# 2분 소요
 
 import sys
 input = sys.stdin.readline

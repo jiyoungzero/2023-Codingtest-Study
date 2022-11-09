@@ -1,7 +1,8 @@
 # 문제 스스로 풀어보기 
 
 # 원을 이루며, 한명씩 제거해도 계속 진행 --> 회전 큐 문제와 동일 
-# 25분 -->  출력 형식 안맞춰서 틀렸다. 
+# 25분 -->  출력 형식 안맞춰서 계속 틀렸다...
+# 정답이랑 동일 
 
 from collections import deque
 import sys
@@ -24,5 +25,7 @@ for i in range(len(result)):
     if i == len(result) -1:
         print(result[i],end=">")
     else: print(result[i], end=", ")
+    
+    
     
 

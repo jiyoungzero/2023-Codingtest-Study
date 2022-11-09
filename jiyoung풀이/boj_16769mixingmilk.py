@@ -1,6 +1,6 @@
 # 문제 스스로 풀어보기
 
-# the candy war과 비슷하다고 느낌
+# the candy war과 비슷하다고 느낌 
 
 import sys
 input = sys.stdin.readline

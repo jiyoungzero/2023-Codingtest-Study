@@ -30,12 +30,12 @@ for p in permutations(rcs, k): # rcs배열을 k번 만큼의 순열 --> 모든 �
         c -= 1
         for i in range(1, s+1):
             # 위
-            copy_a[r-i:r+i-1][c-i] = a[r-i+1:r+i][c-i] # 왜 이걸로 하면 인덱스 에러가 나지??
+            copy_a[r-i:r+i][c-i] = a[r-i+1:r+i+1][c-i] # 왜 이걸로 하면 인덱스 에러가 나지??
             
             # 오른쪽
             copy_a[r-i][c-i+1:c+i] = a[r-i][c-i:c+i-1]
             # 아래
-            # copy_a[r-i+1:r+i][c+i] = a[r-i:r+i-1][c+i]
+            copy_a[r-i+1:r+i][c+i] = a[r-i:r+i-1][c+i]
             # 왼쪽
             copy_a[r+i][c-i:c+i-1] = a[r+i][c-i+1:c+i]
     for row in copy_a:
