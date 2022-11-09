@@ -33,7 +33,8 @@ def dfs(A, s, N):
     
     for _ in range(4):
         X = [convert(i) for i in A]
-        if A != X : ret=max(ret, dfs(X, s-1, N))
+        if A != X : 
+            ret=max(ret, dfs(X, s-1, N))
         A = rotate(A, N)
     return ret
 

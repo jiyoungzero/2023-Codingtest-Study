@@ -32,3 +32,6 @@ input = sys.stdin.readline
 #         exit(0)
         
 # print('\n'.join(result)) # 줄바꿈을 기준으로 result 문자열을 합친다. 
+
+
+# 정답코드2 --> 1과 로직이 비슷하다 ...

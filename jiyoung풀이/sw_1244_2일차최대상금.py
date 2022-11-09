@@ -69,7 +69,7 @@ def recur(cnt, change):
             if (tmp, cnt) not in visited:
                 visited.append((tmp, cnt))
                 recur(cnt+1, change)
-            # lst[i], lst[j] = lst[j], lst[i] # 바뀐 상태에서 계속 있어줘야 하니까! 
+            lst[i], lst[j] = lst[j], lst[i] # 바뀐 상태에서 계속 있어줘야 하니까! 
                    
 
 for t in range(1, test_case+1):
@@ -94,5 +94,8 @@ for t in range(1, test_case+1):
 # 배운 점 2
 # 재귀를 돌리고 원상복귀할 때 무조건 적으로 이전의 상태가 맞다는 생각을 버려야 한다.
 # 이 케이스에서는 바뀐 상태로 그대로 가야 하기 때문!
+
+# 배운 점 3
+# 문자열도 비교연산이 가능하군..
 
 

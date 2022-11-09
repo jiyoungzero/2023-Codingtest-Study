@@ -31,7 +31,6 @@ def in_range(x,y):
 def gravity(lst):
     for c in range(10):
         temp = [] # 열을 저장한 리스트
-        cnt = 0 # 0이 나온 횟수
         for r in range(n):
             if lst[r][c] != 0:
                 temp.append(lst[r][c])
@@ -62,21 +61,24 @@ def dfs_del(x,y, v):
     
     for i in range(4):
         nx, ny = x+dxs[i], y+dys[i]
-        if in_range(nx, ny) and visited2[nx][ny] == False and lst[nx][ny]==v:
-            dfs_del(nx, ny, v)
-        else:continue
+        # if in_range(nx, ny) and visited2[nx][ny] == False and lst[nx][ny]==v:
+        #     dfs_del(nx, ny, v)
+        # else:continue
+        if not in_range(nx, ny) :continue
+        if visited2[nx][ny] or lst[nx][ny] != v:
+            continue
+        dfs_del(nx, ny, v)
 
 while 1:
     exist = False
-    
-    # 여기서 계속 초기화 해줘야 하는 이유를 정확히 모르겟다...
 
     visited = [[False]*10 for _ in range(n)] # 뭉탱이 개수 셀때 
     visited2 = [[False]*10 for _ in range(n)] # 뭉탱이 지워줄 때
     for i in range(n):
         for j in range(10):
-            if lst[i][j] != 0:
-                cnt = dfs(i,j)
+            if lst[i][j] == 0:
+                continue
+            cnt = dfs(i,j)
             if cnt >= k:
                 dfs_del(i, j, lst[i][j])
                 exist = True
@@ -89,6 +91,8 @@ for i in lst:
     for j in i:
         print(j, end="")
             
+
+# 시간 초과가 떴을 때는 continue문을 늘려줘야 한다. !!!!!!!!!!!!!!!!!!!!!!!!!
             
     
     

@@ -2,10 +2,10 @@
 
 # 친구관계를 탐색하고 총 몇명인지 알아보는 거라 dfs/bfs라고 생각했음 
 # 근데 정수가 아니라서 f_lst[i].append(j) <- 이 형식은 못씀
-# 그래서 딕셔너리가 좋을 것 같음 {나 : 친구} <- 이런 형식 
+# 그래서 딕셔너리가 좋을 것 같음 {나 : 친구, 1,2} <- 이런 형식 
 # 위에는 실패, 왜냐면 f_dic[a].append(b)로 못함 --> str값이라..
 
-# 집합 성질 중에 교집합, 합집합 성질이 있는데 그거 이용할까..
+# 집합 성질 중에 교집합, 합집합 성질이 있는데 그거 이용할까..테스트케이스 2 번째 --> 연관성 
 # 30분 초과 
 
 # import sys
@@ -20,6 +20,8 @@
 #     for i in range(n):
 #         a, b = map(str, input().split())
 #         f_set.append(a,b) 
+
+
     
 
         
@@ -72,7 +74,7 @@ for _ in range(test_cases):
         
         union (x,y)
         
-        print(number[find(y)])  # x로 찾든, y로 찾든 루트노드로 가는 거라서 똑같음  
+        print(number[find(x)])  # x로 찾든, y로 찾든 루트노드로 가는 거라서 똑같음  
         
     # 첫번째 테스트케이스 결과창    
     # print(number) {'Fred': 4, 'Barney': 1, 'Betty': 1, 'Wilma': 1}

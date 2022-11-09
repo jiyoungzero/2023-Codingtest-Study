@@ -17,4 +17,4 @@ for i in range(1,n):
                   dp[i] = max(dp[i], dp[j] + arr[i])
             else:
                   dp[i] = max(dp[i], arr[i])
-print(dp)
+print(max(dp))

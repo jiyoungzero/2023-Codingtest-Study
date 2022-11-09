@@ -1,5 +1,7 @@
 #문제 스스로 풀어보기
 
+
+# set까지는 생각했으나.. 다른 사람 풀이 참고함 , 30분 초과
 import sys
 input = sys.stdin.readline
 # 모든 행, 열, 대각선 위에는 하나의 요소만 있어야 함 -> set
