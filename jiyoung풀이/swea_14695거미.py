@@ -41,3 +41,5 @@ for t in range(T):
     if flag == True : result = "TAK"
     else: result = "NIE"
     print(f"#{t+1} {result}")
+    
+    # 정답은 맞는데 런타임에러로 오답처리

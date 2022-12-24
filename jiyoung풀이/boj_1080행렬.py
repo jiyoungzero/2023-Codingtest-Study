@@ -15,19 +15,15 @@ def flip(i, j):
                 arr_A[a][b] = 1 - arr_A[a][b] 
 
 # if n<3 or m<3: ans = -1 --> 이거 땜에 계속 틀렸음 왜??
-else:
-    for i in range(n-2):
-        for j in range(m-2):
-            # 3*3 뒤집기 최소
-            if arr_A[i][j] != arr_B[i][j]:
-                flip(i,j)
-                ans+=1
+for i in range(n-2):
+    for j in range(m-2):
+        # 3*3 뒤집기 최소
+        if arr_A[i][j] != arr_B[i][j]:
+            flip(i,j)
+            ans+=1
 
 # 다 연산 끝내고
-for i in range(n):
-    for j in range(m):
-        if arr_A[i][j] != arr_B[i][j]:
-            ans = -1
+if arr_A != arr_B:ans = -1
 if ans == -1:
     print("-1")
 else:

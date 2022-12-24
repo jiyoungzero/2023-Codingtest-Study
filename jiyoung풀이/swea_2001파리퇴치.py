@@ -6,9 +6,6 @@ input = sys.stdin.readline
 
 T = int(input())
 
-def in_range(a, b):
-    return 0<= a < N and 0<= N < b
-
 for test_case in range(1, T+1):
     result, max_value = 0, 0
     N, M = map(int, input().split())
@@ -23,6 +20,7 @@ for test_case in range(1, T+1):
                     max_value += arr[i+a][j+b]
             
             
-                    result = max(result, max_value)
+                result = max(result, max_value)
     
     print(f"#{test_case} {result}")
+    

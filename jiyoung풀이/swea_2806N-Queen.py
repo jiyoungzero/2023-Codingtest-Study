@@ -9,18 +9,17 @@ input = sys.stdin.readline
 
 T = int(input().rstrip())
 
-def is_nqueen(x):
+def is_nqueen(x): # 행기준
     global result
     global n
 
-    
-    # l_diag = / , r_diag = \
     if x == n:
         result += 1
         return
     
+    # l_diag = \ , r_diag = /
     for i in range(n):
-        if i in col or (i+x) in l_diag or (x-i) in r_diag: # 열, 두 대각선에 하나라도 존재하면 넘어가고
+        if (i in col) or ((i+x) in l_diag) or ((x-i) in r_diag): # 열, 두 대각선에 하나라도 존재하면 넘어가고
             continue
         
         # 아니면 경우의 수를 넣어주기

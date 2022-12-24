@@ -1,5 +1,5 @@
 # 문제 스스로 풀어보기 
-
+# 15분분
 import sys
 input = sys.stdin.readline
 from itertools import combinations
@@ -27,6 +27,5 @@ for t in range(1,T+1):
     result = getComb(n, arr)
     
     answer = [ ele for ele in result if ele == k]
-    
     
     print(f"#{t} {len(answer)}")
