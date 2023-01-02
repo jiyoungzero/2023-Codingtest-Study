@@ -1,5 +1,5 @@
 # 문제 스스로 풀어보기
-
+# 30분 초과
 import sys
 input = sys.stdin.readline
 # import itertools

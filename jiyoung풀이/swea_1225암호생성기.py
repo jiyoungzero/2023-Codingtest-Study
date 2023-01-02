@@ -2,7 +2,7 @@
 
 import sys
 input = sys.stdin.readline
-
+# 20분소요
 def cycle(arr):
     for i in range(1,6):
         front = arr[0]

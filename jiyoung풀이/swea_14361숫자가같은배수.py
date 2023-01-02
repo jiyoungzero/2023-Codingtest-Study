@@ -1,4 +1,4 @@
-# 문제 스스로 풀어보기 34
+# 문제 스스로 풀어보기 34 -> 5
 
 import sys
 input = sys.stdin.readline

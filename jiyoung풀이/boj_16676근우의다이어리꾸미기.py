@@ -19,7 +19,8 @@ for i in range(len(str_n)):
 for i in range(len(str_n)):
     if 1 in num_lst[i]: # 각자의 가장 작은 숫자는 1(0이 아님)
         result += 1
-print(result) 
+if str_n == "0": print(1)
+else : print(result) 
     
 
     
