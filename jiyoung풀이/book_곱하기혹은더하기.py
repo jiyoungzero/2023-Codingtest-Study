@@ -16,3 +16,5 @@ for ele in arr:
     else:
         result += ele
 print(result)
+
+# 모범답안 이하동일
