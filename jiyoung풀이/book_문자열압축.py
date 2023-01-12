@@ -32,3 +32,13 @@ def solution(s):
 
         answer.append(len(tmp))          
     return min(answer)
+
+# zip 내장 함수 사용 
+# for number, upper, lower in zip("12345", "ABCDE", "abcde"):
+#      print(number, upper, lower)
+# 출력 >
+# 1 A a
+# 2 B b
+# 3 C c
+# 4 D d
+# 5 E e
