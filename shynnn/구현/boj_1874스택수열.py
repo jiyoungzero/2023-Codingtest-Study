@@ -1,3 +1,30 @@
+# 실버2
+# 30분
+
+import sys
+input = sys.stdin.readline
+n = int(input())
+stack = []
+result = []
+num = 1
+
+for i in range(n):
+    data = int(input())
+    while num <= data:
+        stack.append(num)
+        num += 1
+        result.append('+')
+    if stack[-1] == data:
+        stack.pop()
+        result.append('-')
+    else:
+        result.clear()
+        result.append("NO")
+        break
+
+print('\n'.join(result))
+
+'''
 # 스택, 그리디
 # 하, 30분
 # 이중 for문 혹은 while로 해결해보려했지만 못풀었다..
@@ -66,3 +93,5 @@ for i in range(n):
         exit(0)
 
 print('\n'.join(result))
+
+'''
