@@ -1,3 +1,33 @@
+# 실버2
+# 15분 소요
+
+import sys
+from collections import deque
+input = sys.stdin.readline
+test_case = int(input())
+
+for _ in range(test_case):
+    L = deque(input().rstrip())
+    left, right = [], []
+    while L:
+        data = L.popleft()
+        if data == "<":
+            if left:
+                right.append(left.pop())
+        elif data == ">":
+            if right:
+                left.append(right.pop())
+        elif data == "-":
+            if left:
+                left.pop()
+        else:
+            left.append(data)
+    while right:
+        left.append(right.pop())
+    print("".join(left))
+
+
+'''
 # 스택, 구현, 그리디
 # 중, 40분
 
@@ -50,3 +80,5 @@ for _ in range(test_case):
             left_stack.append(i)
     left_stack.extend(reversed(right_stack))
     print("".join(left_stack))
+
+'''
