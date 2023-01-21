@@ -1,3 +1,26 @@
+# 골드4
+# 1. 자료구조를 사용해 시간복잡도를 최소화 하자.
+#  ->for 문 X 2 , for 문 X stack 의 시간복잡도 비교
+
+# 2. Stack은 어떤 문제 유형에서 활용할 수 있는가? 에 대해 적응할 필요가 있다.
+# -> 문제를 풀면서 처음에 stack을 쓸 수 있을지 생각 자체가 나지 않았음.
+
+# 3. 조건을 만족하지 않는 경우를 default 값으로 하는 풀이
+# result = [-1] * N
+
+N = int(input())
+arr = list(map(int, input().split()))
+result = [-1] * N
+stack = [0]
+
+for i in range(1, N):
+    while stack and arr[stack[-1]] < arr[i]:
+        result[stack.pop()] = arr[i]
+    stack.append(i)
+
+print(*result)
+
+'''
 # 자료구조, 스택
 # 중상, 50분
 # 못풀었음..
@@ -49,3 +72,4 @@ for i in range(n):
 
 for x in NGE:  # 오큰수를 하나씩 출력
     print(x, end=' ')
+'''
