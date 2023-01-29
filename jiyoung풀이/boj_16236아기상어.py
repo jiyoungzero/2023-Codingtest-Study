@@ -26,63 +26,66 @@ input =sys.stdin.readline
 6. 다음 물고기 장소로 가는 거 3번부터 반복
 '''
 n = int(input())
-arr = [list(map(int, input().split())) for _ in range(n)]
-dxs, dys = [1,1,0,0],[0,0,-1,1] 
-shark_x, shark_y = 0,0
-
+arr = [list(map(int ,input().split())) for _ in range(n)]
+shark_weight = 2
+cur_x, cur_y = 0,0
+dxs, dys = [0,0,1,-1], [1,-1,0, 0]
 
 for i in range(n):
     for j in range(n):
         if arr[i][j] == 9:
-            shark_x, shark_y = i,j
-            arr[i][j] = 0 # 상어 위치는 초기화
+            cur_x, cur_y = i, j
+            arr[i][j] = 0 # 상어 위치값 초기화하기 -> 나중에 탐색할 때 불편할까봐
 
-def bfs(x, y, weight):
-    q = deque([(x, y)])
-    distance = [[0]*n for _ in range(n)]
+def bfs(x, y): # 현재 위치에서 bfs돌면서 지나갈 수 있는 물고기를 q에 넣고 return 
+    # 현재 위치에서 가는 경우를 여러번 돌려야 하니까 여기서 초기화
     visited = [[False]*n for _ in range(n)]
-    visited[x][y] = True
-    tmp = []
+    distance = [[0]*n for _ in range(n)]
     
-    while q: # 인접한 곳에 없을 경우가 있어서 일단 지나갈 수 있는 위치는 무조건 q에 저장
-        cur_x, cur_y = q.popleft()
+    q = deque([(x, y)]) # 현재 아기상어의 위치
+    visited[x][y] = True
+    fish_lst = []
+    while q:
+        x, y = q.popleft()
         for i in range(4):
-            nx, ny = cur_x+dxs[i], cur_y+dys[i]
+            nx,ny = x+dxs[i], y+dys[i]
             if (0<=nx<n and 0<=ny<n) and not visited[nx][ny]:
-                if arr[nx][ny] <= weight: # 지나갈 수 있으면
-                    visited[nx][ny] = True
+                if shark_weight >= arr[nx][ny]: # 지나갈 수 있을떼,
+                    distance[nx][ny] = distance[x][y] + 1
+                    visited[nx][ny] = True # 여기에서 처리하는게 맞나?
                     q.append((nx, ny))
-                    distance[nx][ny] = distance[cur_x][cur_y] + 1 # 최단 경로(bfs)
-                    if 0 < arr[nx][ny] < weight : # 먹을 수 있으면
-                        tmp.append((nx, ny, distance[nx][ny]))
-                        
-    return sorted(tmp, key=lambda x:(-x[2], -x[0], -x[1])) 
+                    if 0< arr[nx][ny] < shark_weight:
+                        fish_lst.append((nx, ny, distance[nx][ny]))
+    return sorted(fish_lst, key=lambda x:(-x[2],-x[0],-x[1]))
 
-weight = 2
-result = 0
 fish_cnt = 0
+time = 0
 while 1:
-    fish = bfs(shark_x, shark_y, weight)
+    fish = bfs(cur_x, cur_y)
     
     if len(fish) == 0:
         break
     
-    else:
-        # 정렬된 물고기를 하나씩 꺼내다가 weight랑 같을 때 +1
-        nx, ny, dist = fish.pop() 
-        result += dist
-        # 먹은 물고기는 없어지니까
-        arr[nx][ny] = 0
-        arr[shark_x][shark_y] = 0
-        # 아기상어 위치 업데이트, 이동한 만큼 result에 더하기
-        shark_x, shark_y = nx, ny
+    # 물고기 꺼내다가 shark_weight랑 같아지면 몸무게 증가시키기
+    fish_x, fish_y, dist = fish.pop()
+    time += dist
+    fish_cnt += 1
+    
+    # 아기상어 위치 갱신
+    cur_x, cur_y = fish_x, fish_y
+    
+    # 먹은 물고기는 위치 0
+    arr[fish_x][fish_y] = 0
+    
+    if fish_cnt == shark_weight:
+        shark_weight += 1
+        fish_cnt = 0 
         
-        fish_cnt += 1
-        
-        if fish_cnt == weight:
-            weight += 1
-            fish_cnt = 0
-print(result)
+print(time)
+    
+            
+            
+            
         
 
         
