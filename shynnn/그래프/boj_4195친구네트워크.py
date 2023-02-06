@@ -1,3 +1,48 @@
+# 골드 2
+# 배열로 해보자
+
+
+def find(x):
+    if x == parent[x]:
+        return x
+    else:
+        p = find(parent[x])
+        parent[x] = p
+        return parent[x]
+
+
+def union(x, y):
+    x = find(x)
+    y = find(y)
+
+    if x != y:
+        parent[y] = x
+        arr[x] += arr[y]
+
+
+test_case = int(input())
+
+for _ in range(test_case):
+    relationship = int(input())
+
+    parent = dict()
+    arr = dict()
+
+    for _ in range(relationship):
+        x, y = input().split(' ')
+
+        if x not in parent:
+            parent[x] = x
+            arr[x] = 1
+        if y not in parent:
+            parent[y] = y
+            arr[y] = 1
+
+        union(x, y)
+        print(arr[find(x)])
+
+
+'''
 # 해시, 집합, 그래프
 # 중(골드2), 40분
 # set() 사용해서 풀었으나 틀림
@@ -91,3 +136,4 @@ for _ in range(test_case):
 
         union(x,y)
         print(number[find(x)])
+'''

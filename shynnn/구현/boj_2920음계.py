@@ -1,3 +1,17 @@
+# 2023.01.14. 재풀이
+arr = list(map(int, input().split()))
+arr_sort = sorted(arr)
+arr_reverse = sorted(arr, reverse=True)
+
+if arr == arr_sort:
+    print("ascending")
+elif arr == arr_reverse:
+    print("descending")
+else:
+    print("mixed")
+
+
+'''
 #배열, 구현
 # 난이도 하, 15분
 
@@ -48,3 +62,4 @@ print(scale(array))
 #     print("descending")
 # else:
 #     print("mixed")
+# '''
