@@ -15,7 +15,7 @@ def backtacking(depth, total, plus, minus, multi, divide):
     if depth == n:
         max_num = max(total, max_num)
         min_num = min(total, min_num)
-        # return
+        return
         
     if plus > 0:
         backtacking(depth+1, total+arr[depth], plus-1, minus, multi, divide)
@@ -24,7 +24,10 @@ def backtacking(depth, total, plus, minus, multi, divide):
     if multi > 0:
         backtacking(depth+1, total*arr[depth], plus, minus, multi-1, divide)
     if divide > 0:
-        backtacking(depth+1, int(abs(total)/arr[depth]), plus, minus, multi, divide-1)
+        if total < 0: 
+            backtacking(depth+1, int((-1)*((-1)*total/arr[depth])), plus, minus, multi, divide-1)
+        else:
+            backtacking(depth+1, int((total/arr[depth])), plus, minus, multi, divide-1)
 
 backtacking(1, arr[0], cmd[0], cmd[1], cmd[2], cmd[3])
 print(max_num)
