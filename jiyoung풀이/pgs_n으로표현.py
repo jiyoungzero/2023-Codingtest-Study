@@ -32,3 +32,30 @@ def solution(N, number):
             break
 
     return answer
+
+
+# (1,(n-1)) <사칙연산> ((n-1), 1) --> n번째로 나올 수 있는 집합의 수
+
+def solution(N, number):
+    if number == 1:
+        return 1
+    arr = []
+
+    for i in range(1, 9):
+        tmp = set()
+        tmp.add(int(str(N)*i))
+        for j in range(i-1):
+            for s in arr[j]:
+                for e in arr[-j-1]:
+                    tmp.add(s*e)
+                    tmp.add(s+e)
+                    tmp.add(s-e)
+                    if e != 0:
+                        tmp.add(s//e)
+        print(tmp)
+        if number in tmp:
+            return i
+        arr.append(tmp)
+
+
+    return -1
