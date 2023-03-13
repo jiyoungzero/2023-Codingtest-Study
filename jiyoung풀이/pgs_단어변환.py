@@ -1,18 +1,25 @@
 # dfs/bfs
+from collections import deque
+
+
 def solution(begin, target, words):
-    if target not in words: return 0
     answer = 0
-    list_begin = list(begin)
-    list_target = list(target)
-    n = len(list_begin)
-    new_words = [[] for i in range(len(words))]
-    
-    for i, a in enumerate(words):
-        for j, b in enumerate(words):
-            if len(set(list(a)) & set(list(b))) == n-1:
-                new_words[i].append(b)
-    print(new_words)
-                
-    
-    
+    q = deque([(begin, 0)])
+
+    visited = [ 0 for i in range(len(words))]
+    while q:
+        now, cnt = q.popleft()
+        if now == target:
+            answer = cnt
+            break        
+        for i in range(len(words)):
+            temp_cnt = 0
+            if not visited[i]:
+                for j in range(len(now)):
+                    if now[j] != words[i][j]:
+                        temp_cnt += 1
+                if temp_cnt == 1:
+                    q.append([words[i], cnt+1])
+                    visited[i] = 1
+
     return answer
