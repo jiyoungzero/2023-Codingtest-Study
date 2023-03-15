@@ -16,3 +16,17 @@ def solution(sizes):
 
 
     return max(width)*max(height)
+
+
+# 더 큰 수로 swap -> 매번 돌릴 때 마다 최댓값으로 들어가도록 하기
+def solution(sizes):
+    width = 0
+    height = 0
+    
+    for a,b in sizes:
+        if a<b:a,b =b, a
+        width = max(width, a)
+        height = max(height, b)
+            
+    
+    return width*height
