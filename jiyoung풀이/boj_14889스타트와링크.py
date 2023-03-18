@@ -1,49 +1,35 @@
 # 백트래킹
 
 import sys
-import itertools
-input =sys.stdin.readline
-# (2 + 1) + (5+1) +(5+3) = 3+6+8 = 17
-# (3+2)+(4+2)+(4+4) = 5+6+8 =19
-# (1, 3, 5) -> ((1,3), (3,1), (1,5),(5,1),(3,5),(5,3))
-tmp = []
-
-# 0      1      2        3 
-# 0      1      2        3
-
-def backtracking(depth, idx):
-    global min_value
-    if depth == n//2:
-        start, link = 0,0
-        for i in range(n):
-            for j in range(n):
-                if visited[i] and visited[j]:
-                    start += (cost[i][j])
-                elif not visited[i] and not visited[j]:
-                    link += (cost[i][j])
-        min_value = min(min_value, abs(start-link))
-        return 
-
-    for i in range(idx,n):
-        if not visited[i]:
-            visited[i] = True
-            backtracking(depth+1,i+1)
-            visited[i] = False
-            
-
+input = sys.stdin.readline
+from itertools import combinations 
 
 n = int(input())
-cost = []
-min_value = int(1e9)
-visited = [False]*n
+arr = [list(map(int, input().split())) for _ in range(n)]
 
-for _ in range(n):
-    cost.append(list(map(int, input().split())))
+min_value = int(1e9)
+nCr = list(combinations(range(1,n+1), n//2))
+
+for i in range(len(nCr)//2):
+    start = nCr[i]
+    link = nCr[len(nCr)-i-1]
+    tmp1, tmp2 = 0, 0
     
-backtracking(0,0)
+    for i in start:
+        for j in start:
+            tmp1 += arr[i-1][j-1]
+            
+    for i in link:
+        for j in link:
+            tmp2 += arr[i-1][j-1]
+ 
+    
+    min_value = min(min_value, abs(tmp1-tmp2))
+    
+    
 print(min_value)
     
-
+            
 
 
     
