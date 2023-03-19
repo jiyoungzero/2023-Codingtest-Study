@@ -1,60 +1,59 @@
 # dfs, bfs
 
-from collections import deque
-
-def bfs(graph, start, visited):
-    que = deque()
-    ans = []
-    que.append(start)
-    visited[start] = True
-    ans.append(start)
-    while que:
-        cur = que.popleft()
-        for leaves in cur:
-            if not visited[leaves]:
-                que.append(leaves)
-                visited[leaves] = True
-                ans.append(leaves)
-    return ans
-    
+from collections import defaultdict, deque
 
 def solution(tickets):
     answer = []
     tickets.sort(key=lambda x:x[1])
-    airport = dict()
-    tmp = 0
-    for t in tickets:
-        for ele in t:
-            if ele not in airport:
-                tmp += 1
-                airport[ele] = tmp
-    print((airport))
-    route = [[] for i in range(len(airport)+1)]
-    visited = [False] * (len(airport)+1)  
+    print(tickets)
+    graph = defaultdict(set)
+    for idx, t in enumerate(tickets):
+        graph[t[0]].add(idx)
+    # print(graph) # {'ICN': {0, 3}, 'SFO': {1}, 'ATL': {2, 4}})
     
-    
-    for t in tickets:
-        start, end = t[0], t[1]
-        route[airport[start]].append(airport[end])
-    
-    print(route)
     que = deque()
-    ans = []
-    que.append(airport["ICN"])
-    # visited[airport["ICN"]] = True
-    ans.append(airport["ICN"])
-#     while que:
-#         cur = que.popleft()
-#         for leaves in route[cur]:
-#             # if not visited[leaves]:
-#             que.append(leaves)
-#                 # visited[leaves] = True
-#             ans.append(leaves)
-        
-#     print(ans)
-#     convert_airport = {v:k for k,v in airport.items()} 
-#     for r in ans:
-#         answer.append(convert_airport[r])
-    
+    visited = [0]*len(tickets)
+    que.append(["ICN", ["ICN"], visited]) # 출발, 경로, visited 배열(ticket 썼는지)
+    print(graph)
+    while que:
+        cur, log, visited = que.popleft()
+        if sum(visited) == len(tickets):
+            answer = min(answer, log, key=lambda x:"".join(x)) if answer else log
+            continue
+        for next_idx in graph[cur]:
+            if not visited[next_idx]:
+                next_city = tickets[next_idx][1]
+                tmp = visited[:] # 현재의! visited현황을 알아야 하니까
+                tmp[next_idx] = 1
+                print(visited)
+                que.append([next_city, log+[next_city], tmp])
         
     return answer
+
+
+# dfs(stack이용)-> 속도가 이게 더 빠름 
+from collections import defaultdict
+def solution(tickets):
+    answer = []
+
+    # 1. {시작점: [도착점리스트]} 형태로 그래프 생성
+    graph = defaultdict(list)
+    for (start, end) in tickets:
+        graph[start].append(end)
+
+    # 2. 도착점 리스트를 역순 정렬
+    for airport in graph.keys():
+        graph[airport].sort(reverse=True)
+        
+    print(graph)
+    stack = ["ICN"]
+    while stack:
+        top = stack.pop()
+        if top not in graph or not graph[top]:
+            answer.append(top)
+        else:
+            stack.append(top)
+            stack.append(graph[top].pop()) # 알파벳 빠른 것부터 뺄 수 있음 
+    
+
+    return answer[::-1]
