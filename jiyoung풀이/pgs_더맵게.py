@@ -1,6 +1,6 @@
 # heap
 
-# 런타임 에러 80/100
+# 런타임 에러 87/100
 from heapq import heappop, heappush
 # 가장 맵지 않은 음식의 스코빌 지수 + (두 번째로 맵지 않은 음식의 스코빌 지수 * 2)
 def solution(scoville, K):
@@ -9,9 +9,9 @@ def solution(scoville, K):
     for ele in scoville:
         heappush(heap, ele)
 
-    # heappush(heap, 1)
-    # heappop(heap)
     while heap[0] < K:
+        if len(heap) < 2:
+            return -1
         target = heappop(heap)
         second = heappop(heap)
         heappush(heap, target + second*2)
