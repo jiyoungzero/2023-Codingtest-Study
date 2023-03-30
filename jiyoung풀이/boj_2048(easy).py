@@ -1,12 +1,10 @@
 # 삼성 코테 느낌 꼭 혼자서 풀어보기 
 
-# 1. 같은 열, 행 중 (중간에 다른 숫자가 있으면 안됨) 같은 숫자 b가 있으면  
-#    해당 위치의 숫자 b * 2, 현재 숫자 a 없애기 
+# 1. 각 행, 열 0빼고 que에 다 저장
+# 2. 위쪽일때, 맨 위(row =0)에서 부터 que에서 하나씩 빼면서 같은 숫자면 곱하기2
+# 3. 다른 숫자면 현재 위치 한줄 아래로 내려옴
 
-# 2. 같은 열, 행 중 같은 숫자가 없으면
-#    상, 하, 좌, 우 move시켜서 같은 숫자가 같은 행, 열에 위치하는지 check 
 
-# 3. 1-2번 반복 5번까지
 
 # 2 2 2    0 2 4       
 # 4 4 4 -> 0 4 8   -> 
@@ -24,7 +22,7 @@ que = deque()
 answer = 0
 
 def move(direction):
-    global arr
+    # global arr
     # up
     if direction == 0: 
         for col in range(n):
@@ -104,15 +102,18 @@ def move(direction):
 def solution(cnt):
     global arr, answer
     if cnt == 5:
-        answer = max(max(lst) for lst in arr)
+        tmp = max(max(lst) for lst in arr)
+        answer = max(tmp, answer)
         return answer
     
     cur_arr = deepcopy(arr)
     for k in range(4): #상하좌우 
         move(k)
+        # print("dd")
         solution(cnt+1)
         arr = deepcopy(cur_arr)
 
-print(solution(0))
+solution(0)
+print(answer)
     
 
