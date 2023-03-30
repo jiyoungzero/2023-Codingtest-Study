@@ -1,42 +1,118 @@
-# 문제 스스로 풀어보기 
-# 삼성 코테 성격을 띄는 문제 --> 중요!
+# 삼성 코테 느낌 꼭 혼자서 풀어보기 
 
-# 감이 안잡혀서 정답 코드를 보고 공부햇음 
+# 1. 같은 열, 행 중 (중간에 다른 숫자가 있으면 안됨) 같은 숫자 b가 있으면  
+#    해당 위치의 숫자 b * 2, 현재 숫자 a 없애기 
 
-from copy import deepcopy # 이거 외우기!
+# 2. 같은 열, 행 중 같은 숫자가 없으면
+#    상, 하, 좌, 우 move시켜서 같은 숫자가 같은 행, 열에 위치하는지 check 
+
+# 3. 1-2번 반복 5번까지
+
+# 2 2 2    0 2 4       
+# 4 4 4 -> 0 4 8   -> 
+# 8 8 8    0 8 16
+# 
+
 import sys
-input = sys.stdin.readline
+from copy import deepcopy
+input =sys.stdin.readline
+from collections import deque
 
-N = int(input())
-B = [list(map(int, input().split())) for _ in range(N)]
+n = int(input())
+arr = [list(map(int, input().split())) for _ in range(n)]
+que = deque()
+answer = 0
 
-# 왼쪽 회전 
-def rotate(A, N):
-    X = deepcopy(A)
-    for i in range(N):
-        for j in range(N): 
-            X[N-j-1][i] = A[i][j]
-    return X
+def move(direction):
+    global arr
+    # up
+    if direction == 0: 
+        for col in range(n):
+            for row in range(n): # 한 줄 당 같은 숫자 있는지 체크
+                if arr[row][col] != 0:
+                    que.append(arr[row][col])
+                    arr[row][col] = 0
+            cur_row = 0    
+            while que: 
+                now_value = que.popleft()
+                if now_value == arr[cur_row][col]: # 같은 숫자면 곱하기 2
+                    arr[cur_row][col]*=2
+                    cur_row += 1
+                elif arr[cur_row][col] == 0: # 해당 위치가 아직 안채워져있으면
+                    arr[cur_row][col] = now_value
+                elif now_value != arr[cur_row][col]:
+                    cur_row += 1
+                    arr[cur_row][col] = now_value
+                    
+    # down
+    if direction == 1:
+        for col in range(n):
+            for row in range(n-1, -1, -1): # 한 줄 당 같은 숫자 있는지 체크
+                if arr[row][col] != 0:
+                    que.append(arr[row][col])
+                    arr[row][col] = 0
+            cur_row = n-1    
+            while que: 
+                now_value = que.popleft()
+                if now_value == arr[cur_row][col]: # 같은 숫자면 곱하기 2
+                    arr[cur_row][col]*=2
+                    cur_row -= 1
+                elif arr[cur_row][col] == 0: # 해당 위치가 아직 안채워져있으면
+                    arr[cur_row][col] = now_value
+                elif now_value != arr[cur_row][col]:
+                    cur_row -= 1
+                    arr[cur_row][col] = now_value
+    # right 오른쪽
+    if direction == 2:
+        for row in range(n):
+            for col in range(n-1, -1, -1): # 한 줄 당 같은 숫자 있는지 체크
+                if arr[row][col] != 0:
+                    que.append(arr[row][col])
+                    arr[row][col] = 0
+            cur_col = n-1    
+            while que: 
+                now_value = que.popleft()
+                if now_value == arr[row][cur_col]: # 같은 숫자면 곱하기 2
+                    arr[row][cur_col]*=2
+                    cur_col -= 1
+                elif arr[row][cur_col] == 0: # 해당 위치가 아직 안채워져있으면
+                    arr[row][cur_col] = now_value
+                elif now_value != arr[row][cur_col]:
+                    cur_col -= 1
+                    arr[row][cur_col] = now_value
+    # left 왼쪽
+    if direction == 3:
+        for row in range(n):
+            for col in range(n): # 한 줄 당 같은 숫자 있는지 체크
+                if arr[row][col] != 0:
+                    que.append(arr[row][col])
+                    arr[row][col] = 0
+            cur_col = 0    
+            while que: 
+                now_value = que.popleft()
+                if now_value == arr[row][cur_col]: # 같은 숫자면 곱하기 2
+                    arr[row][cur_col]*=2
+                    cur_col += 1
+                elif arr[row][cur_col] == 0: # 해당 위치가 아직 안채워져있으면
+                    arr[row][cur_col] = now_value
+                elif now_value != arr[row][cur_col]:
+                    cur_col += 1
+                    arr[row][cur_col] = now_value
+                    
+                                        
 
-def convert(l):
-    ll = [i for i in l if i]
-    for i in range(len(ll)-1):
-        if ll[i] == ll[i+1]:
-            ll[i] *= 2
-            ll[i+1] = 0
-    ll = [i for i in ll if i]
-    return ll + [0]*(len(l)-len(ll)) # 원래 l 만큼의 리스트 개수로 만듦
-
-def dfs(A, s, N):
-    ret = max([max[i] for i in A])
-    if s == 0:return ret
+def solution(cnt):
+    global arr, answer
+    if cnt == 5:
+        answer = max(max(lst) for lst in arr)
+        return answer
     
-    for _ in range(4):
-        X = [convert(i) for i in A]
-        if A != X : 
-            ret=max(ret, dfs(X, s-1, N))
-        A = rotate(A, N)
-    return ret
+    cur_arr = deepcopy(arr)
+    for k in range(4): #상하좌우 
+        move(k)
+        solution(cnt+1)
+        arr = deepcopy(cur_arr)
 
-print(dfs(B, 5, N))
+print(solution(0))
+    
 
