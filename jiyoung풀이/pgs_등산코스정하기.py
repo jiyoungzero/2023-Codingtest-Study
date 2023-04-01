@@ -1,34 +1,38 @@
 # 2022 카카오 tech 인턴십
 
-# 첫풀이 -> 실패 (summit반영 안함)
+# 첫풀이 -> 실패 
 import heapq
 
 def solution(n, paths, gates, summits):
-    answer = []
     leaves = [ [] for _ in range(n+1)]
     intensity = [int(1e9)] * (n+1)    
     for path in paths:
         start, end, cost = path
         leaves[start].append((end, cost))
         leaves[end].append((start, cost))
-    print(leaves)
-    
-    searchIntensity(summits[0],intensity,leaves)
-    for i in range(1, n+1):
-        if intensity[i] == int(1e9):print("not pass")
-        else:print(intensity[i])
-        
+
+    answer = searchIntensity(gates,summits,intensity,leaves)   
     return answer
 
-def searchIntensity(start,intensity,leaves):
+def searchIntensity(gates, summits,intensity,leaves):
     q = []
-    heapq.heappush(q, (0, start))
-    intensity[start] = 0
+    for gate in gates:
+        heapq.heappush(q, (0, gate))
+        intensity[gate] = 0
+        
     while q:
         dist, now = heapq.heappop(q)
-        if intensity[now] < dist: continue
+        if now in summits or intensity[now] < dist: continue 
         for leaf in leaves[now]:
-            cost = dist + leaf[1]
-            if cost < intensity[leaf[0]]:
-                intensity[leaf[0]] = cost
-                heapq.heappush(q, (cost, leaf[0]))
+            next_dist = max(dist,leaf[1]) 
+            if next_dist < intensity[leaf[0]]:
+                intensity[leaf[0]] = next_dist
+                heapq.heappush(q, (next_dist, leaf[0]))
+                
+    result = [0, int(1e9)]
+    for summit in summits:
+        if intensity[summit] < result[1]:
+            result[1] = intensity[summit]
+            result[0] = summit
+    return result
+        
