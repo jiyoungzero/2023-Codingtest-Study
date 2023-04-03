@@ -6,12 +6,15 @@ answer = 0
 
 if input == input[::-1]:
     answer = len(input)
+    print(answer)
 else:
-    reversed_input = list(reversed(input))
-    start = 0
     for i in range(len(input)):
-        if reversed_input[0] == input[i]:
-            start = i
-            break
-    answer = len(input) + start
-print(answer)
+        for j in range(i+1, len(input)):
+            tmp = list(input)
+            plus = reversed(input[i:j])
+            tmp += plus
+            reversed_input = list(reversed(tmp))
+            if tmp == reversed_input:
+                answer = len(input) + (j-i)
+                print(answer)
+                exit(0)
