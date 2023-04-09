@@ -2,33 +2,43 @@
 
 import sys
 input =sys.stdin.readline
-from itertools import combinations
 
 n = int(input())
 arr = [list(map(int, input().split())) for _ in range(n)]
-lst = list(combinations([i for i in range(1, n+1)], n//2))
-all = len(lst)
+visited = [0] * n
 answer = int(1e9)
 
-for i in range(all//2+1):
-    s_score, e_score = 0,0
-    s_t, e_t = lst[i], lst[all-i-1]
-    s_lst, e_lst = list(combinations(s_t,2)), list(combinations(e_t,2))
+def get_min_answer():
+    global answer
+    start, link = 0,0
+    for i in range(n):
+        for j in range(n):
+            if visited[i] and visited[j]:
+                start += arr[i][j]
+            elif not visited[i] and not visited[j]:
+                link += arr[i][j]
+    answer = min(answer, abs(start-link))
+    return 
 
-    # 스타트 팀 계산
-    for ele in s_lst:
-        a, b = ele[0]-1, ele[1]-1
-        s_score += arr[a][b] 
-        s_score += arr[b][a]
-        
-    # end 팀 계산
-    for ele in e_lst:
-        a, b = ele[0]-1, ele[1]-1
-        e_score += arr[a][b] 
-        e_score += arr[b][a]
+
+def backtracking(start, depth):
+    global answer
+    if depth == n//2:
+        get_min_answer()
+        return
+    for i in range(start, n):
+        if not visited[i]:
+            visited[i] = True
+            backtracking(i, depth+1)
+            visited[i] = False
     
-    answer = min(answer, abs(s_score-e_score))
     
+    
+for i in range(0, n-1):
+    backtracking(0, i)
+
+
 print(answer)
-        
+    
+
     
