@@ -1,35 +1,48 @@
 # 누적합, 투포인터 
 
-# 시간초과
-import sys
-sys.setrecursionlimit(1000000)
-input =sys.stdin.readline
 
-def solution(start, end):
-    global arr, answer
-    length = end-start
-    if start >= end or sum(arr[start:end]) < s:
-        return answer
+import sys
+
+N, S = map(int, input().split())
+numbers = list(map(int, input().split()))
+
+left, right = 0, 0 # 두 개의 포인터는 0에서 부터 시작
+sum = 0 # 합을 저장할 변수
+min_length = sys.maxsize # 먼저 최대 길이로 지정
+
+while True:
+    # 만약 총 합이 S가 넘는다면, left를 하나씩 옮겨보면서 어디까지 길이가 줄어드나 확인
+    if sum >= S:
+        min_length = min(min_length, right - left)
+        sum -= numbers[left]
+        left += 1
+    elif right == N or left > right:
+        break
+    # 만약 총합이 S를 넘지 않는다면, right 을 오른쪽으로 한칸씩 옮기며 총합이 S를 넘을때까지 더함
     else:
-        if start+1 <n and sum(arr[start+1:end]) >= s:
-            start += 1
-            solution(start, end)
-        if end-1 > 0 and sum(arr[start:end-1]) >= s:
-            end -= 1
-            solution(start, end)    
-               
-        if sum(arr[start:end]) >= s:
-            length = end-start
-            answer = min(answer,length)
-            return 
-    return min(answer,length)
-                
-n, s = map(int, input().split()) # s이상인 부분수열의 합  
-arr = list(map(int, input().split()))
-start, end = 0, n
-answer = int(1e9)
-solution(start, end)
-print(answer)
+        sum += numbers[right]
+        right += 1
+
+
+print(min_length if min_length < sys.maxsize else 0)
+        
+
+        
+
+
+# try 2
+# for i in range(n-1):
+#     tmp = arr[i]
+#     for j in range(i+1, n):
+#         tmp += arr[j]
+#         if answer <= (j-i+1):
+#             break
+#         if tmp >= s:
+#             answer = min(answer, j-i+1)
+#             break
+            
+        
+
 
 
     
