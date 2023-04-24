@@ -1,59 +1,49 @@
 # 정확성 75/100 -> 다시..
 
 def solution(park, routes):
-    answer = []
-    r, c = len(park), len(park[0])
-    x, y = 0,0
-    for i in range(r):
-        for j in range(c):
-            if park[i][j] == "S":
-                x, y = i, j
-                break
-                
-    
+    W = len(park[0])
+    H = len(park)
+    sX = sY = 0
+
+
+    for y, line in enumerate(park):
+        x = line.find("S")
+        if x != -1:
+            sX = x
+            sY = y
+            break
+    # for i in range(H):
+    #     for j in range(W):
+    #         if park[i][j] == "S":
+    #             sX = i
+    #             sY = j
+    #             break
+    print(sX, sY)
+
+
+
     for route in routes:
-        flag = False
-        cmd = list(route.split(" "))
-        move = int(cmd[1])
-        
-        if cmd[0] == "E":
-            nx, ny = x, y+move
-            if nx<0 or r<=nx or ny<0 or c<=ny:
-                    continue
-            for i in range(y, ny+1):
-                if park[nx][i] == "X":
-                    flag = True
-                    break
-                
-        elif cmd[0] == "W":
-            nx, ny = x, y-move
-            if nx<0 or r<=nx or ny<0 or c<=ny:
-                    continue
-            for i in range(ny, y-1, -1):
-                if park[nx][i] == "X":
-                    flag = True
-                    break
-                
-        elif cmd[0] == "S":
-            nx, ny = x+move, y
-            if nx<0 or r<=nx or ny<0 or c<=ny:
-                    continue
-            for i in range(x, nx+1):
-                if park[i][ny] == "X":
-                    flag = True
-                    break
-                
-        elif cmd[0] == "N":
-            nx, ny = x-move, y
-            if nx<0 or r<=nx or ny<0 or c<=ny:
-                    continue
-            for i in range(nx, x-1, -1):
-                if park[i][ny] == "X":
-                    flag = True
-                    break
-        if not flag:
-            x, y = nx, ny
-    answer = [x,y]
-            
-            
+        r = route.split(" ")
+        dir = r[0]
+        step = int(r[1])
+
+        if dir == "E":
+            if sX+step >= W : continue
+            if "X" in park[sY][sX+1:sX+step+1]: continue
+            sX += step
+        elif dir == "W" :
+            if sX-step < 0: continue
+            if "X" in park[sY][sX-step:sX]: continue
+            sX -= step
+        elif dir == "S":
+            if sY+step >= H: continue
+            if "X" in [line[sX] for line in park][sY+1:sY+step+1] : continue
+            sY += step
+        elif dir == "N":
+            if sY-step < 0: continue
+            if "X" in [line[sX] for line in park][sY-step:sY]: continue
+            sY -= step
+        print(sX, sY)
+
+    answer = [sY, sX]
     return answer
