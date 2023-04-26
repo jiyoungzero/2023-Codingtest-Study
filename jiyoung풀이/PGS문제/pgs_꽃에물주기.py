@@ -6,8 +6,7 @@
 # 10이상의 자리 : 0/(현재수//2)
 
 # 각 셀 = (물의양, 꽃의 수용량, 꽃인지 아닌지)    
-
-# 오답 (18점 ㅅㅂ)
+# 정답답
 is_flower = [[False]*100 for _ in range(100)]
 have_water = [[0]*100 for _ in range(100)]
 
@@ -17,7 +16,7 @@ def water(flower, op,N):
     for i in range(N):
         for j in range(N):
             if is_flower[i][j] == False:
-                have_water[i][j] = op[i][j]
+                have_water[i][j] += op[i][j]
             elif is_flower[i][j]:
                 if flower[i][j] < op[i][j]+have_water[i][j]:
                     flower[i][j] = 0
