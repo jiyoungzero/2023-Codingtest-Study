@@ -1,19 +1,16 @@
-# A에서 양 끝 점을 비교해서 어디가 더 가까운 지 보기 
-# 연속된 부분 예외사항 보기 
+# 기본 최소 이동 횟수는 길이 - 1
+# 연속되는 A가 있을 때, 그것의 왼쪽이나 오른쪽부터 시작하며 알파벳을 변경하는 것이 가장 효율적이다.
+# 때문에 (기존, 왼쪽부터 시작, 오른쪽부터 시작) 중에서 minimum이 답이다.
 def solution(name):
     answer = 0
-    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" 
-    alphabet2 = "AZYXWVUTSRQPONMLKJIHGFEDCB"
-    
-    for n in name:
-        s_target = alphabet.index(n)
-        e_target = alphabet2.index(n)
-        print(abs(s_target), abs(e_target)) 
-        add = min(abs(s_target), abs(e_target))
-        if add == 0:
-            answer += 1
-        else:
-            answer += add
-    return answer
+    cur_move = len(name) - 1
 
-# print(solution("JAZ"))
+    for i, n in enumerate(name):
+        answer += min(ord(n)-ord("A"), ord("Z")-ord(n)+1) # 상하이동수
+        next = i + 1
+        while next < len(name) and name[next] == "A":
+            next += 1
+        cur_move = min(cur_move, 2*i+len(name)-next, i+2*(len(name)-next)) 
+    answer += cur_move 
+
+    return answer
