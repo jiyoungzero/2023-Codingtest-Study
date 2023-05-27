@@ -21,29 +21,6 @@
 # 2^31 - 1이하의 정수로 이루어진 정수 배열
 
 
-# 내풀이
-def solution(nums):
-    answer = []
-    dp = []
-    def dfs(idx):
-        if idx == len(nums):
-            answer.append(dp)
-            return
-        return
-
-        for i in range(idx, len(nums)):
-            print("ddddd")
-            digit = nums[idx:i+1]
-            if len(dp) > 2 and dp[-1] != dp[-2] + dp[-3]:
-                return
-            dp.append(digit)
-            dfs(i+1)
-            dp.pop()
-
-    dfs(0)
-
-    return answer
-
 # 모범 답안
 def solution2(num):
     def is_fibo(arr):
