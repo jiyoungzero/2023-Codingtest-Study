@@ -1,26 +1,19 @@
 def solution(start, end, price):
-    answer = 0
-    schedule = []
-    for s, e, p in zip(start, end, price):
-        schedule.append([s,e,p])
-    schedule.sort(key=lambda x:(x[1], -x[2]))
-    #print(schedule)
+    items = [(e, s, p) for e, s, p in zip(end, start, price)]
+    items.sort()
 
-    prev = schedule[0]
-    answer += prev[2]
-    for i in range(1,len(schedule)):
-        if prev[1] == schedule[i][1]:continue
-        if prev[0] <= schedule[i][0]:
-            answer += schedule[i][2]
-            prev = schedule[i]
-        elif prev[0] > schedule[i][0]:
-            if prev[2] >= schedule[i][2]:
-                continue
-            else:
-                answer -= prev[2]
-                answer += schedule[i][2]
-                prev = schedule[i]
-        #print(answer, prev)
-        
+    dp = [0 for _ in range(max(end) + 1)]
+    for e, s, p in items:
+        for j in range(e, len(dp)):
+            dp[j] = max(dp[s] + p, dp[j])
+    
+    return dp[-1]
 
-    return answer
+
+    
+
+# start = [1, 5, 10, 6, 5]
+# end = [5, 6, 12, 9, 12]
+# price = [10, 40, 30, 20, 50]
+
+# print(solution(start, end, price))
