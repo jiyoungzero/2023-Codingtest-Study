@@ -1,12 +1,14 @@
 # 2018 카카오 블라인드 
 # * : 이전 점수, 현재 점수 2배 (첫번째에 도착하면 4배가 됨)
 # # : (-1)배
+import re 
 def solution(dartResult):
     answer = 0
     cmd = []
     result = []
     n = len(dartResult)
     visited = [False]*n
+    dartResult = re.split(r'*|#|S|D|T',dartResult) # 추가
     
     for i in range(n-1, -1, -1):
         if not visited[i] and dartResult[i] == "*" or dartResult[i] == "#":
