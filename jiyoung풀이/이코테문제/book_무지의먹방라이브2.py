@@ -1,17 +1,26 @@
-# 정확성도 틀림.
+import heapq
+
 def solution(food_times, k):
-    answer = 0
-    now = 0
+    answer = -1
+    hq = []
+    for i in range(len(food_times)):
+        heapq.heappush(hq, (food_times[i], i+1)) # 섭취시간, 순번
     
-    while 1:
-        now = (now + 1)%len(food_times)
-        if k == 0:
-            answer = now
+    prev_time = 0
+    length = len(food_times)
+    
+    while hq:
+        now = (hq[0][0] - prev_time)*length
+        if now <= k:
+            k -= now
+            length -= 1
+            prev_time, _ = heapq.heappop(hq)
+        else:
+            idx = k % length
+            hq.sort(key=lambda x:x[1])
+            answer = hq[idx][1]
             break
-        if food_times[now] > 0:
-            food_times[now] -= 1
-            k -= 1
-        elif food_times[now] == 0:
-            continue
+            
+
     
     return answer
