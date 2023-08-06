@@ -4,21 +4,20 @@ input = sys.stdin.readline
 
 
 n, m = map(int, input().split())
-lst = list(map(int, input().split()))
-cnt = Counter(lst)
-lst_cnt = []
+data = list(map(int, input().split()))
 result = 0
-for ele in cnt:
-    lst_cnt.append([ele, cnt[ele]])
+arr = [0]*11 # 1~10까지의 무게를 담는 리스트
 
+for ele in data:
+    arr[ele] += 1
 
-for i in range(len(lst_cnt)):
-    target = lst_cnt[i][1]
-    mul = 0
-    for j in range(i+1, len(lst_cnt)):
-        mul += lst_cnt[j][1]
-    result += (target*mul)
+for i in range(1, m+1):
+    n -= arr[i]
+    result += (arr[i]*n)
+
 print(result)
+
+
 
     
     
