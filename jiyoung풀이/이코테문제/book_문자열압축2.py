@@ -8,27 +8,24 @@ def solution(s):
     if len(s) == 1:
         return 1
     
-    for step in range(1,len(s)//2+1):
-        compressed = ''
+    for step in range(1, len(s)+1):
+        compressed = ""
         cnt = 1
-        prev = s[0:step]
+        prev = s[:step]
         for j in range(step, len(s), step):
-            next = s[j:j+step]
-            if prev == next:
+            nxt = s[j:j+step]
+            if nxt == prev:
                 cnt += 1
             else:
                 if cnt >= 2:
                     compressed += (str(cnt) + prev)
-                else:
+                    cnt = 1
+                else: 
                     compressed += prev
-                prev = next
-                cnt = 1
-        if cnt >= 2:
-            compressed += (str(cnt) + prev)
-        else:
-            compressed += prev
-            
-        answer = min(answer, len(compressed))    
+                prev = nxt
+        # 남아있는 문자열 처리
+        compressed += (str(cnt) + prev) if cnt >= 2 else prev 
+        answer = min(answer, len(compressed))
     
     
     return answer
