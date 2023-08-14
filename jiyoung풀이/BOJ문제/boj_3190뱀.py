@@ -30,4 +30,10 @@ def turn(dir, c):
     return dir
     
 # 시뮬레이션 함수
-
+def simulate():
+    x, y = 1,1 # 현재 위치
+    data[x][y] = 2 # 뱀 위치는 2
+    direction = 0 # 처음에는 동쪽
+    time = 0 # 시작한 후에 지난 시간
+    nxt = 0 # 다음에 회전할 정보
+    q = [(x, y)] # 뱀이 차지하는 위치 정보 (꼬리가 앞)
