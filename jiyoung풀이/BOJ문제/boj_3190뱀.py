@@ -37,3 +37,34 @@ def simulate():
     time = 0 # 시작한 후에 지난 시간
     nxt = 0 # 다음에 회전할 정보
     q = [(x, y)] # 뱀이 차지하는 위치 정보 (꼬리가 앞)
+
+    while 1:
+        nx, ny = x+dx[direction], y + dy[direction]
+        
+        if 1<=nx<=n and 1<=ny<=n and data[nx][ny] != 2:
+            # 사과가 없으면 이동 후에 꼬리 제거
+            if data[nx][ny]  != 1:
+                data[nx][ny] = 2
+                q.append((nx,ny))
+                px, py = q.pop()
+                data[px][py] = 0
+            # 사과가 있으면 이동 후에 꼬리 그대로 두기
+            if data[nx][ny] == 1:
+                data[nx][ny] = 2
+                q.append((nx,ny))
+        
+        else:
+            time+=1
+            break
+        x, y = nx, ny
+        time += 1
+        
+        # 회전할 시간인 경우 회전
+        if nxt < 1 and time == info[nxt][0]:
+            direction = turn(direction, info[nxt][1])
+            nxt += 1
+    
+    return time
+
+print(simulate())
+                
