@@ -8,3 +8,19 @@
 def solution(orders, n):
     set_orders = set(list(range(1,1001))) - set(orders)
     return list(set_orders)[n-1]
+
+
+
+# 답안 
+def solution(orders, n):
+    missCnt = 0
+    i = 0
+    num = 0
+    
+    while missCnt != n :
+        num += 1
+        if i < len(orders) and orders[i] == n:
+            i += 1
+        else:
+            missCnt += 1 
+    return num
