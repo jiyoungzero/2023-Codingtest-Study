@@ -9,4 +9,14 @@ def solution(arr):
         else:
             return "NO"
     return answer
-print(solution([0,2,2,2]))
+
+# 정답! 
+def solution(arr):
+    answer = 'YES'
+    for i in range(1, len(arr)):
+        p, c = arr[(i-1)//2], arr[i]
+        if p <= c:
+            continue
+        else:
+            return "NO"
+    return answer
