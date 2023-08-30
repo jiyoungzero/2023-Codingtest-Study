@@ -12,5 +12,20 @@ dx,dy = [0,0,1,-1],[1,-1,0,0]
 result = 0
 
 # dfs를 이용하여 바이러스(2)가 퍼지도록 만들기
+def virus(x, y):
+    for i in range(4):
+        nx, ny = x+dx[i], y+dy[i]
+        if 0<=nx<n  and 0<=ny<m:
+            if temp[nx][ny] == 0:
+                temp[nx][ny] = 2
+                virus(nx, ny)
 # 현재 맵에서 안전 영역의 크기 계산하는 메서드
+def get_score():
+    score = 0
+    for i in range(n):
+        for j in range(m):
+            if temp[i][j] == 0:
+                score += 1
+    return score
+
 # dfs를 이용하여 울타리(3개) 설치 후, 매번 안전 영역 크기 계산 
