@@ -29,3 +29,28 @@ def get_score():
     return score
 
 # dfs를 이용하여 울타리(3개) 설치 후, 매번 안전 영역 크기 계산 
+def dfs(count):
+    global result
+    if count == 3:
+        for i in range(n):
+            for j in range(m):
+                temp[i][j] = data[i][j]
+        for i in range(n):
+            for j in range(m):
+                if temp[i][j] == 2:
+                    virus(i, j)
+    
+        result = max(result, get_score())
+        return
+    
+    for i in range(n):
+        for j in range(m):
+            if data[i][j] == 0:
+                data[i][j]=1
+                count += 1
+                dfs(count)
+                data[i][j] =0
+                count -= 1
+                
+dfs(0)
+print(result)
