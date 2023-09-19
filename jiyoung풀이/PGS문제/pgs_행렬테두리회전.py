@@ -1,37 +1,37 @@
 def solution(rows, columns, queries):
     answer = []
-    matrix = [[0 for i in range(columns+1)] for j in range(rows+1)]
-    num = 1
-    for row in range(1, rows+1):
-        for column in range(1, columns+1):
-            matrix[row][column] = num
-            num += 1
-            
-    for x1, y1, x2, y2 in queries:
-        tmp = matrix[x1][y1]
-        mini = tmp
+    arr = [[ j*columns + i for i in range(1, rows+1)] for j in range(columns)]
+
+    
+    for a, b, c, d in queries:
+        result = int(1e9)
+        temp = arr[a-1][b-1]
+        r, c = c - a + 1,  d - b + 1
         
-        for k in range(x1,x2):
-            test = matrix[k+1][y1]
-            matrix[k][y1] = test
-            mini = min(mini, test)
-
-        for k in range(y1,y2):
-            test = matrix[x2][k+1]
-            matrix[x2][k] = test
-            mini = min(mini, test)
-
-        for k in range(x2,x1,-1):
-            test = matrix[k-1][y2]
-            matrix[k][y2] = test
-            mini = min(mini, test)
-
-        for k in range(y2,y1,-1):
-            test = matrix[x1][k-1]
-            matrix[x1][k] = test
-            mini = min(mini, test)
-
-        matrix[x1][y1+1] = tmp
-        answer.append(mini)
+        # 위로 올리기
+        for j in range(a , c):
+            arr[j-1][b-1] = arr[j][b-1]
+            result = min(result, arr[j][b-1])
             
+        
+        # 왼쪽으로 옮기기
+        for i in range(b, d):
+            arr[c-1][i-1] = arr[c-1][i]
+            result = min(result, arr[c-1][i])
+            
+        # 아래쪽으로 내리기
+        for j in range(c-2, a-1, -1):
+            arr[j+1][d-1] = arr[j][d-1]
+            result = min(result, arr[j][d-1])
+        
+        # 오른쪽 일부만 옮기기
+        for i in range(+1, -1):
+            arr[a-1][i+1] = arr[a-1][i]
+            result = min(result, arr[a-1][i])
+        
+        # 빈 곳 temp로 채우기
+        arr[a-1][b] = temp
+        result = min(result, temp)
+        answer.append(result)
+        
     return answer
