@@ -1,29 +1,24 @@
+import heapq
 def solution(jobs):
     answer = 0
-    n = len(jobs)
-    jobs.sort(key=lambda x:x[0])
-    now_time = jobs[0][0]+jobs[0][1]
-    total = jobs[0][0]+jobs[0][1]
-    del jobs[0]
+    now_time, i = 0,0
+    start = -1
+    heap = []
     
-    while jobs:
-        disk = []
-        for i in range(len(jobs)):
-            if now_time >= jobs[i][0]:
-                disk.append(jobs[i])
-        if len(disk) == 0:
-            total += (jobs[0][0] + jobs[0][1])
-            now_time = jobs[0][0] + jobs[0][1]
-            del jobs[0]
+    while i < len(jobs):
+        for j in jobs:
+            if start < j[0] <= now_time:
+                heapq.heappush(heap, [j[1], j[0]])
             
-        else:
-            disk.sort(key=lambda x:x[1])
-            total += ((now_time-disk[0][0])+disk[0][1])
-            now_time += disk[0][1]
-            for i, (s, t) in enumerate(jobs):
-                if [s,t] == disk[0]:
-                    del jobs[i]
+        if len(heap) > 0:
+            cur = heapq.heappop(heap)
 
+            start = now_time
+            now_time += cur[0]
+
+            answer += (now_time-cur[1])
+            i += 1
+        else:
+            now_time += 1
     
-            
-    return total // n
+    return answer//len(jobs)
