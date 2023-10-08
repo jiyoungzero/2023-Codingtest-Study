@@ -1,18 +1,16 @@
+# 포인트는 x축을 기준으로 count하는 것..
+import math
 def solution(r1, r2):
     answer = 0
-    # 대각선 개수 
-    cnt = 0
-    max_ = 0
-    for i in range(r1, r2):
-        if r1 <= int((i*i)**0.5) <= r2:
-            cnt += 1
-            max_ = i
-    
-    answer =  ((i-1)*2 + cnt)*4
+    max_, min_ = 0,0
+    for i in range(1,r2+1):
+        max_ = int(math.sqrt(r2**2-i**2))
+        if r1 > i:
+            min_ = math.ceil(math.sqrt(r1**2-i**2))
+        else:
+            min_ = 0
+        answer += (max_-min_+1)
 
-            
-    # 축에 있는 정수 
-    print(((r2-r1+1)*4))
-    answer += ((r2-r1+1)*4)
-        
-    return answer
+
+
+    return answer*4
