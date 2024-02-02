@@ -1,70 +1,40 @@
-blocks = [[[1, 1, 1, 1]], [[1, 1], [1, 1]],
-        [[1, 0], [1, 0], [1, 1]], 
-        [[1, 0],[1, 1], [0, 1]],
-        [[1, 1, 1], [0, 1, 0]]]
-n, m = map(int, input().split())
-arr = [list(map(int, input().split())) for _ in range(n)]
+import sys
+input = sys.stdin.readline
+N,M = map(int,input().split())
+arr = [list(map(int,input().split())) for _ in range(N)]
+visited = [[0]*M for _ in range(N)]
 answer = 0
 
-def rotate_90(grid):
-    # rotated_grid = [[0]*n for _ in range(m)]
-    # for i in range(n):
-    #     for j in range(m):
-    #         rotated_grid[j][max(n-i-1, 0)] = grid[i][j]
-    rotated = list(zip(*grid[::-1]))
-    return [list(row) for row in rotated]
+dxs = [-1,0,-1,0]
+dys = [0,1,0,-1]
 
-def up_down_reverse(grid):
-    reversed_grid = grid[::-1]
-    return reversed_grid
+def in_range(x, y):
+    return 0 <= x < N and 0 <= y < M
 
-def right_left_reverse(grid):
-    reversed_grid = []
-    for row in grid:
-        reversed_grid.append(row[::-1])
-    return reversed_grid
+def dfs(x, y, depth, total):
+    global answer
+    if depth == 3:
+        answer = max(answer, total)
+        return 
+    else:
+        for k in range(4):
+            nx, ny = x + dxs[k], y + dys[k]
+            if not in_range(nx, ny):
+                continue
+            if not visited[nx][ny]:
+                if depth == 1:
+                    visited[nx][ny] = True
+                    dfs(x, y, depth+1, total+arr[nx][ny] )
+                    visited[nx][ny] = False
+                visited[nx][ny] = True
+                dfs(nx, ny, depth+1, total+arr[nx][ny])
+                visited[nx][ny] = False
+            
 
-def block_in_range(x, y, block):
-    h, w = len(block), len(block[0])
-    return 0 <= y+w-1 < m and 0 <= x + h -1 < n 
 
-def get_sum(block):
-    global arr
-    h, w= len(block), len(block[0])
-    result = 0
-    
-    for i in range(n):
-        for j in range(m):
-            tmp = 0
-            if block_in_range(i, j, block):
-                # 블록 내의 숫자 합하기
-                for x in range(h):
-                    for y in range(w):
-                        if block[x][y]:
-                            tmp += arr[i+x][j+y]
-            result = max(result, tmp)
-    return result
-
-for block in blocks:
-    # 회전만 시키기
-    for _ in range(4):
-        answer = max(answer, get_sum(block))
-        # print(get_sum(block))
-        block = rotate_90(block)
-        
-    # 상하 대칭 후 회전
-    block = up_down_reverse(block)
-    for _ in range(4):
-        answer = max(answer, get_sum(block))
-        block = rotate_90(block)
-    block = up_down_reverse(block) # 원상복귀
-    
-    
-    # 좌우 대칭 후 회전 
-    block = right_left_reverse(block)
-    for _ in range(4):
-        answer = max(answer, get_sum(block))
-        block = rotate_90(block)
-    block = right_left_reverse(block) # 원상복귀
-
+for i in range(N):
+    for j in range(M):
+        visited[i][j] = True
+        dfs(i, j, 0, arr[i][j])
+        visited[i][j] = False
 print(answer)
