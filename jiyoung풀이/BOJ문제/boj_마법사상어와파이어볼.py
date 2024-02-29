@@ -41,7 +41,7 @@ def change_duplicate_balls():
                 new_m = sum_m // 5
                 new_s = sum_s // len(arr[i][j])
                 new_d = []
-                if new_s:
+                if new_m:
                     if odd == len(arr[i][j]) or even == len(arr[i][j]):
                         new_d = [0, 2, 4, 6]
                     else:
@@ -59,6 +59,8 @@ def simulate():
     
 for _ in range(k):
     simulate()
+    
+    
 for fireball in fireballs:
     answer += fireball[2]
 print(answer)
