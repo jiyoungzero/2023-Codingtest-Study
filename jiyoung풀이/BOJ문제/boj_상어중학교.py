@@ -8,6 +8,7 @@ BLANK = -2
 n, m = map(int, input().split())
 arr = [list(map(int, input().split())) for _ in range(n)]
 dxs, dys = [0,0,1,-1], [1,-1,0,0]
+answer = 0
 # 그룹 : 일반 블록 하나 이상 + 해당 일반 블록의 숫자가 모두 같아야 함. + 검은색 안됨 
 # 기준 블록 : 무지개 블록을 제외하고 행의 번호 작기, 열의 번호가 작은 블록
 
@@ -22,12 +23,19 @@ def in_range(x, y):
 
 
 def gravity():
-    nxt_arr = [[0]*n for _ in range(n)]
+    global arr
+    nxt_arr = [[BLANK]*n for _ in range(n)]
     
     for j in range(n):
         tmp = n-1
         for i in range(n-1, -1, -1):
-            if arr[i][j] == BLANK: 
+            if arr[i][j] == BLANK:continue
+            elif arr[i][j] == BLACK:
+                tmp = i
+                nxt_arr[tmp][j] = arr[i][j]
+                tmp -= 1
+                
+            elif arr[i][j] != BLANK: 
                 nxt_arr[tmp][j] = arr[i][j]
                 tmp -= 1
     
@@ -35,13 +43,11 @@ def gravity():
     return 
 
 def get_center(group_lst):
-    lst = []
-    for (x, y) in enumerate(group_lst):
+    group_lst.sort(key = lambda x : (x[0], x[1]))
+    for x, y in group_lst:
         if arr[x][y] != RAINBOW:
-            lst.append((x, y))
-    # lst.sort(key = lambda : (x[0], x[1]))
-    print("여기!", lst)
-    return lst[0]
+            return (x, y)
+
 
 def is_group(group_lst):
     normal =0
@@ -52,7 +58,6 @@ def is_group(group_lst):
         return True
     else: return False
 
-visited = [[False]*n for _ in range(n)]
 def find_group(sx, sy):
     rainbow_cnt = 0
     center_x, center_y = 0, 0
@@ -69,12 +74,13 @@ def find_group(sx, sy):
             if not in_range(nx, ny):
                 continue
             if not visited[nx][ny] and arr[nx][ny] != BLACK:
-                if arr[nx][ny] == num:
+                if arr[nx][ny] == num or arr[nx][ny] == RAINBOW:
+                    if arr[nx][ny] == RAINBOW:
+                        rainbow_cnt += 1
                     group_lst.append((nx, ny))
                     visited[nx][ny] = True
                     que.append((nx, ny))
-                    if arr[nx][ny] == RAINBOW:
-                        rainbow_cnt += 1
+                    
                     
     if is_group(group_lst):
         center_x, center_y = get_center(group_lst)
@@ -104,7 +110,7 @@ def find_largest_group():
 def remove_group(sx, sy):
     global arr, answer
     # x, y기준으로 그룹인 곳들 다 -2으로 만들기(blank)
-    group_lst = []
+    group_lst = [(sx, sy)]
     que = deque()
     visited2 = [[False]*n for _ in range(n)]
     que.append((sx, sy))
@@ -118,7 +124,7 @@ def remove_group(sx, sy):
             if not in_range(nx, ny):
                 continue
             if not visited2[nx][ny] and arr[nx][ny] != BLACK:
-                if arr[nx][ny] == num:
+                if arr[nx][ny] == num or arr[nx][ny] == RAINBOW:
                     group_lst.append((nx, ny))
                     visited2[nx][ny] = True
                     que.append((nx, ny))
@@ -131,19 +137,26 @@ def remove_group(sx, sy):
     return
 
 def rotate_90(): # 반시계
+    global arr
     rotate_arr = list(map(list, zip(*arr)))[::-1]
     arr = copy.deepcopy(rotate_arr)
     return 
 
 while True:
+    visited = [[False]*n for _ in range(n)]
     flag = find_largest_group()
     if flag == False:
         break
     else:
-        remove_group(flag[0], flag[1])
+        remove_group(flag[0], flag[1])      
         gravity()
         rotate_90()
         gravity()
+        print()
+        for row in arr:
+            print(*row)  
+
+
 print(answer)
         
     
