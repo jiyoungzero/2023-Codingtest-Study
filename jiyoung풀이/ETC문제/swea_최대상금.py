@@ -14,14 +14,14 @@ def backtracking(cnt, tmp_numbers,swap_cnt):
         return 
     for i in range(len(tmp_numbers)):
         for j in range(i+1, len(tmp_numbers)):
-            # backtracking(cnt+1, tmp_numbers, swap_cnt, result)
-            tmp_numbers[i], tmp_numbers[j] = tmp_numbers[j], tmp_numbers[i]            
-            cnt += 1
+            # 바꿀 때
+            tmp_numbers[i], tmp_numbers[j] = tmp_numbers[j], tmp_numbers[i]
             if ("".join(tmp_numbers), cnt) not in visited:
                 visited.append(("".join(tmp_numbers), cnt))
-                backtracking(cnt, tmp_numbers, swap_cnt)
-            tmp_numbers[i], tmp_numbers[j] = tmp_numbers[i], tmp_numbers[j]            
-            cnt -= 1
+                backtracking(cnt+1, tmp_numbers, swap_cnt)
+            
+            tmp_numbers[i], tmp_numbers[j] = tmp_numbers[j], tmp_numbers[i]
+
 
 for test_case in range(1, T + 1):
     result = "000000"
