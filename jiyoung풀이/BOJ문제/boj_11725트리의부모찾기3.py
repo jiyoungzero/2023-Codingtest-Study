@@ -1,29 +1,26 @@
 import sys
 input = sys.stdin.readline 
-sys.setrecursionlimit(10**5)
+from collections import deque
 
 n = int(input())
 graph = [[] for _ in range(n+1)]
+parent = [0]*(n+1)
 for _ in range(n-1):
-    a, b = map(int, input().split())
-    graph[b].append(a)
+    a, b= map(int, input().split())
     graph[a].append(b)
-
-parent = [[] for _ in range(n+1)]
-
-def dfs(node):
-    global parent
-    if not graph[node]:
-        return 
+    graph[b].append(a)
     
-    for leaf in graph[node]:
-        if parent[leaf] == []:
-            parent[leaf] = node 
-            dfs(leaf)
-dfs(1)
-# print(graph)
+que = deque()
+que.append(1)
+
+def bfs():
+    while que:
+        cur = que.popleft()
+        for leaf in graph[cur]:
+            if parent[leaf] == 0:
+                parent[leaf] = cur
+                que.append(leaf)
+                
+bfs()
 for ele in parent[2:]:
     print(ele)
-    
-
-
