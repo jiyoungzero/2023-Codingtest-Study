@@ -6,6 +6,7 @@ from collections import deque
 n, m = map(int, input().split())
 arr = [list(map(int, input().split())) for _ in range(n)]
 result = [[-1]*m for _ in range(n)]
+gx, gy = 0,0
 # 0 : 갈수 없는 곳
 # 1: 갈 수 있는 곳
 # 2 : 목표지점
@@ -14,40 +15,34 @@ result = [[-1]*m for _ in range(n)]
 # 원래 갈 수 없는 곳 : 0
 for i in range(n):
     for j in range(m):
-        if arr[i][j] == 2 or arr[i][j] == 0:
+        if arr[i][j] != 1:
             result[i][j] = 0
-    
+        if arr[i][j] == 2:
+            gx, gy = i, j
+
 def in_range(x, y):
     return 0 <= x < n and 0 <= y < m
 
-
-def dfs(sx, sy):
+def bfs():
     dxs, dys = [0,0,1,-1], [1,-1,0,0]
     que = deque()
-    visited = [[False]*m for _ in range(n)]
-    que.append((sx, sy, 0))
-    visited[sx][sy] = True
+    que.append((gx, gy))
+    visited = [[0]*m for _ in range(n)]
     
     while que:
-        x, y, dist = que.popleft()
-        if arr[x][y] == 2:
-            result[sx][sy] = dist
-            return 
+        x, y = que.popleft()
         for dir in range(4):
-            nx, ny = x + dxs[dir], y + dys[dir]
-            if not in_range(nx, ny):continue
-            if not visited[nx][ny] and arr[nx][ny] != 0:
-                visited[nx][ny] = True
-                que.append((nx, ny, dist+1))
-
-for i in range(n):
-    for j in range(m):
-        if arr[i][j] == 1:
-            dfs(i,j)
-
+            nx, ny = x+dxs[dir], y + dys[dir]
+            if not in_range(nx, ny):continue 
+            if visited[nx][ny] == 0 and result[nx][ny] != 0:
+                visited[nx][ny] = visited[x][y] + 1
+                result[nx][ny] = visited[nx][ny]
+                que.append((nx, ny))
+bfs()
 for row in result:
     print(*row)
-            
+        
+
         
     
 
