@@ -1,51 +1,25 @@
-# 누적합, 투포인터 
-
-
+# 투포인터
 import sys
+input = sys.stdin.readline 
 
 N, S = map(int, input().split())
-numbers = list(map(int, input().split()))
+arr = list(map(int, input().split()))
+answer = int(1e9)
+l, r = 0 ,0
 
-left, right = 0, 0 # 두 개의 포인터는 0에서 부터 시작
-sum = 0 # 합을 저장할 변수
-min_length = sys.maxsize # 먼저 최대 길이로 지정
-
+sum_ = 0
 while True:
-    # 만약 총 합이 S가 넘는다면, left를 하나씩 옮겨보면서 어디까지 길이가 줄어드나 확인
-    if sum >= S:
-        min_length = min(min_length, right - left)
-        sum -= numbers[left]
-        left += 1
-    elif right == N or left > right:
-        break
-    # 만약 총합이 S를 넘지 않는다면, right 을 오른쪽으로 한칸씩 옮기며 총합이 S를 넘을때까지 더함
-    else:
-        sum += numbers[right]
-        right += 1
+    if sum_ >= S:
+        answer = min(answer, (r-l))
+        sum_ -= arr[l]
+        l += 1    # print("합 = ", sum_, s, "(s, e) =", (s, e))
+    elif sum_ < S:
+        sum_ += arr[r]
+        r += 1
+    if r == N or l > r:break
 
 
-print(min_length if min_length < sys.maxsize else 0)
+print(answer if answer < int(1e9) else 0)
         
-
-        
-
-
-# try 2
-# for i in range(n-1):
-#     tmp = arr[i]
-#     for j in range(i+1, n):
-#         tmp += arr[j]
-#         if answer <= (j-i+1):
-#             break
-#         if tmp >= s:
-#             answer = min(answer, j-i+1)
-#             break
-            
-        
-
-
-
     
     
-
-
