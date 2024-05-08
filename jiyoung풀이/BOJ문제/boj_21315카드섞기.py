@@ -1,44 +1,42 @@
 import sys
-input = sys.stdin.readline
+from itertools import permutations
+input = sys.stdin.readline 
 
 n = int(input())
-result = map(int, input().split())
+result = list(map(int, input().split()))
 answer = []
 
+def shuffle(card1, card2, card3):
+    card = card2 + card1 + card3
+    if len(card2) > 1:
+        return shuffle(card2[:len(card2)//2] + card1, card2[len(card2)//2:], card3)
+    else:
+        return card
 
-def simulate(sel):
-    # 초기상태
-    cards = [i for i in range(1, n+1)]
-    for num in sel:
-        before= cards[1:]
-        cards = cards[1:] + cards[0]
-        for i in range(2, num):
-            ups = before[-2**(num-i+1):]
-            cards = ups + ups[:2**(num-i+1)] + cards[0]
-            before = ups
-    for a, b in zip(result, cards):
-        if a != b:
-            return False
-    return True
-
-
-def select_2num(sel, idx):
-    global answer
+flag = False
+def select_2nums(idx, sel):
+    global answer, flag
     if len(sel) == 2:
-        if simulate(sel):
+        cards = [i for i in range(1, n+1)]
+        for k in sel:
+            card1 = []
+            card2 = cards[n-(2**k):] # 위로 보낼
+            card3 = cards[:n-(2**k)] # 아래
+            cards = shuffle(card1, card2, card3)
+        # print(sel, cards)
+        if result == cards:
             answer = sel
+            flag = True
             return 
-        
+    if flag:
+        return
+    
     if idx == n+1:
         return 
     
     for i in range(1, n+1):
         if i not in sel:
-            select_2num(sel+[i], idx+1)
+            select_2nums(idx+1, sel + [i])
 
-
-select_2num([], 1)
+select_2nums(0, [])
 print(*answer)
-
-            
-        
