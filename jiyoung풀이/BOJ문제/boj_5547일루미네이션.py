@@ -8,7 +8,9 @@ from collections import deque
 # 건물이 없는 좌표를 BFS 탐색하면서 건물과 만나는 지점을 카운트
 
 w, h = map(int, input().split())
-arr = [list(map(int, input().split())) for _ in range(h)]
+arr = [[0 for _ in range(w+2)] for _ in range(h+2)]
+for i in range(1, h+1):
+    arr[i][1:w+1] = map(int, input().split())
 answer = 0
 dxs = [[-1, 0, 1, 0, -1, -1], [0,1,1,1,0,-1]] # 홀수, 짝수
 dys = [-1, -1, 0, 1, 1, 0 ]
@@ -28,16 +30,16 @@ def bfs(sy, sx):
 
         for k in range(6):
             nx, ny = x + dxs[y%2][k], y + dys[k]
-            if 0 <= ny < (h+2) and 0 <= nx < (w+2):
+            if 0 <= nx < w+2 and 0 <= ny < h+2 :
                 if arr[ny][nx] == 1:
                     answer += 1
-                else:
-                    if not visited[ny][nx]:
-                        visited[ny][nx] = True
-                        que.append((ny, nx))
+
+                elif arr[ny][nx] == 0 and not visited[ny][nx]:
+                    que.append((ny, nx))
+                    visited[ny][nx] = True
+                
                     
 
-    
-    
+
 bfs(0,0)
 print(answer)
