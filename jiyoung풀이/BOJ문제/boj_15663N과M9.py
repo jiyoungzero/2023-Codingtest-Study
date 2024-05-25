@@ -4,12 +4,12 @@ input = sys.stdin.readline
 n, m = map(int, input().split())
 lst = list(map(int, input().split()))
 
-answer = []
+answer = set()
 used = [False]*n
 def backtracking(sel):
     global answer
-    if len(sel) == m and sel not in answer:
-        answer.append(sel)
+    if len(sel) == m :
+        answer.add(tuple(sel))
         return 
         
     
@@ -21,6 +21,5 @@ def backtracking(sel):
 
 
 backtracking([])
-answer.sort()
-for ele in answer:
+for ele in sorted(list(answer)):
     print(' '.join(map(str, ele)))
