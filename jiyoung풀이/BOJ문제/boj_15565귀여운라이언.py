@@ -16,15 +16,16 @@ while e < n:
     if cnt >= k:
         if answer > e-s+1:
             answer = e-s+1
-            print(s, e)
+            # print(s, e)
+            s += 1
             cnt = 0
             
-            while s != e:
+            while arr[s] != 1:
                 s += 1
-                if arr[s] == 1:
-                    cnt += 1
+            e = s
+            cnt = 1
+
                     
     e += 1
-    print(s, e)
     
 print(answer if answer < int(1e9) else -1)
