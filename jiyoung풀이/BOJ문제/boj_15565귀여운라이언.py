@@ -23,4 +23,4 @@ while e < n:
         if arr[s-1] == 1:
             cnt -= 1
 
-print(answer)
+print(answer if answer < int(1e9) else -1)
