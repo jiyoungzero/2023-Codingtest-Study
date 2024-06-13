@@ -1,20 +1,25 @@
-from collections import defaultdict, deque
+# DFS 풀이
+
+from collections import defaultdict
 def solution(tickets):
     answer = []
     graph = defaultdict(list)
-    tickets.sort()
-    
+    tickets.sort(reverse = True)
     for s, e in tickets:
         graph[s].append(e)
-        
+
+    
     print(graph)
-    que = deque()
-    que.append('ICN')
-    while que:
-        now = que.popleft()
-        answer.append(now)
+    path = ['ICN']
+    while path:
+        now = path[-1]
+
         
-        if graph[now]:
-            que.append(graph[now][0])
-            graph[now] = graph[now][1:]
-    return answer
+        if graph[now]: 
+            path.append(graph[now].pop())
+        else:
+            answer.append(path.pop())
+            
+        
+    print(answer)
+    return answer[::-1]
